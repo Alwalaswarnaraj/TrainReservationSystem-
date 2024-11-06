@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.sql.Date;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -37,10 +38,26 @@ public class BookTicketsServlet extends HttpServlet{
 		rm.setNumSeats(numSeats);
 		rm.setAvailableseats(availableseats);
 		rm.setTrainNumber(trainNumber);
+		ReservationModel result = null;
 		try {
-			BookTicketsService.bookTickets(rm, userId);
+			result = BookTicketsService.bookTickets(rm, userId);
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
+		}
+		
+		if(result == null) {
+			System.out.println("NUllll in controller");
+		}else {
+			System.out.println("swaraanraknrgjk");
+			req.setAttribute("reservationId", result.getReservationId());
+			req.setAttribute("trainNumber", result.getTrainNumber());
+			req.setAttribute("date", result.getDate());
+			req.setAttribute("source", result.getSource());
+			req.setAttribute("destination", result.getDestination());
+			req.setAttribute("noOfseats", result.getNumSeats());
+			req.setAttribute("name", result.getUserName());
+			RequestDispatcher rd = req.getRequestDispatcher("ConfirmTickets.jsp");
+			rd.forward(req, resp);
 		}
 	}
 }

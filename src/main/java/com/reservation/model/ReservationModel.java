@@ -4,12 +4,37 @@ import java.sql.Date;
 import java.time.LocalDate;
 
 public class ReservationModel {
+	
+
 	private String source;
 	private String  destination;
 	private LocalDate date;
 	private int trainNumber;
 	private int availableseats;
 	private int numSeats;
+	private String reservationId;
+	private long userId;
+	private String userName;
+	
+	public long getUserId() {
+		return userId;
+	}
+	public void setUserId(long userId) {
+		this.userId = userId;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public String getReservationId() {
+		return reservationId;
+	}
+	public void setReservationId(String reservationId) {
+		this.reservationId = reservationId;
+	}
+	
 	public String getSource() {
 		return source;
 	}

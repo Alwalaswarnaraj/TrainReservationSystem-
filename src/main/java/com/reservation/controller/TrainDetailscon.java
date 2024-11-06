@@ -2,6 +2,7 @@ package com.reservation.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -36,6 +37,8 @@ public class TrainDetailscon extends HttpServlet {
 				out.println("<p>No trains available from " + source + " to " + destination + ".</p>");
 			} else {
 				req.setAttribute("trainList", trains);
+				LocalDate currentDate = LocalDate.now();
+				req.setAttribute("currentDate", currentDate);
 				RequestDispatcher rd = req.getRequestDispatcher("trainList.jsp");
 				rd.forward(req, resp);
 			}
