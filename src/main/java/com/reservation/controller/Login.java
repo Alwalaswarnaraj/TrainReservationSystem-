@@ -26,7 +26,6 @@ public class Login extends HttpServlet {
 		
 		try {
 			long userId = ConLogin.login(name, password);
-			System.out.println("hell: "+userId);
 			if(userId != 0){
 			req.setAttribute("name", name);
 			req.setAttribute("password", password);
@@ -36,7 +35,8 @@ public class Login extends HttpServlet {
 			RequestDispatcher rd = req.getRequestDispatcher("home.jsp");
 			rd.forward(req, resp);
 		}else {
-			out.println("failed to login");
+			RequestDispatcher rd = req.getRequestDispatcher("loginFailed.jsp");
+			rd.forward(req, resp);
 		}
 		} catch (SQLException e) {
 			e.printStackTrace();

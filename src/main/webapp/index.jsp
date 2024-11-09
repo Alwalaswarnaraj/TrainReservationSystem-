@@ -38,6 +38,6 @@ input.submit{
 	<form action="registration.jsp">
 		<button type="submit">register</button>
 	</form>
-		
+
 </body>
 </html>

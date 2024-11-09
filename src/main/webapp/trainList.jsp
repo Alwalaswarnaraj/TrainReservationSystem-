@@ -43,9 +43,22 @@ th {
 }
 
 .disabled-button {
-	background-color: #ccc; /* Gray background for disabled */
+	background-color: white; /* Gray background for disabled */
 	color: #666; /* Dark gray text */
 	cursor: not-allowed; /* Not-allowed cursor */
+}
+
+    .button-container {
+        
+        justify-content: left;
+        margin-left: 10px;
+        margin-top: 10px; /* Optional: Adds some space above the button */
+    }
+a{
+	padding-top:20px;
+	/* color:white; */
+	font-size: 20px;
+	text-decoration: none;
 }
 </style>
 </head>
@@ -59,9 +72,25 @@ th {
 	<!-- Side Panel -->
 	<div id="sidePanel" class="side-panel">
 		<a href="javascript:void(0)" class="close-btn" onclick="closePanel()">×</a>
-		<h2>Additional Options</h2>
-		<p>You can add more actions here, such as filters, settings, or
-			additional information.</p>
+		<%
+		HttpSession ses = request.getSession(false);
+		String name = (String) ses.getAttribute("name");
+		%>
+		<h1><%=name%></h1>
+		
+		<div class="button-container">
+		<a href="#">check reservations</a> <br>
+		</div>
+		<div class="button-container">
+		<a href="#">change password</a><br>
+		</div>
+		<div class="button-container">
+		<a href="#">update userName</a> <br>
+		</div>
+		<div class="button-container">
+			<a href="#">change password</a><br>
+		</div>
+
 	</div>
 
 	<!-- Train Reservation Table -->

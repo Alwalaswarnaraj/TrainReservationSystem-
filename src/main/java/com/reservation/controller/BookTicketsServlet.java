@@ -6,6 +6,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.sql.Date;
 
 import javax.servlet.RequestDispatcher;
@@ -19,18 +20,22 @@ import com.reservation.model.ReservationModel;
 import com.reservation.service.BookTicketsService;
 
 public class BookTicketsServlet extends HttpServlet{
+	
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String source = req.getParameter("source");
 		String destination = req.getParameter("destination");
 		String date = req.getParameter("schedule");
+		System.out.println(date);
 		LocalDate date2 = LocalDate.parse(date); // Convert String to Date
-		System.out.println("Converted Date: " + date);
+		System.out.println("Converted Date: " + date2);
 		int trainNumber = Integer.parseInt(req.getParameter("trainNumber"));
 		int availableseats = Integer.parseInt(req.getParameter("availableSeats"));
 		int numSeats = Integer.parseInt(req.getParameter("numSeats"));
 		HttpSession session = req.getSession();
 		long userId = (Long) session.getAttribute("userId");
+		
 		ReservationModel rm = new ReservationModel();
 		rm.setDate(date2);
 		rm.setDestination(destination);
@@ -38,6 +43,7 @@ public class BookTicketsServlet extends HttpServlet{
 		rm.setNumSeats(numSeats);
 		rm.setAvailableseats(availableseats);
 		rm.setTrainNumber(trainNumber);
+		
 		ReservationModel result = null;
 		try {
 			result = BookTicketsService.bookTickets(rm, userId);
@@ -48,14 +54,18 @@ public class BookTicketsServlet extends HttpServlet{
 		if(result == null) {
 			System.out.println("NUllll in controller");
 		}else {
-			System.out.println("swaraanraknrgjk");
-			req.setAttribute("reservationId", result.getReservationId());
-			req.setAttribute("trainNumber", result.getTrainNumber());
-			req.setAttribute("date", result.getDate());
-			req.setAttribute("source", result.getSource());
-			req.setAttribute("destination", result.getDestination());
-			req.setAttribute("noOfseats", result.getNumSeats());
-			req.setAttribute("name", result.getUserName());
+			
+			session.setAttribute("reservationId", result.getReservationId());
+			session.setAttribute("trainNumber", result.getTrainNumber());
+			LocalDate date0 = result.getDate();
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/mm/yyyy");
+			String datestr = date.formatted(formatter);
+			session.setAttribute("date",datestr);
+			session.setAttribute("source", result.getSource());
+			session.setAttribute("destination", result.getDestination());
+			session.setAttribute("seats", result.getNumSeats());
+			session.setAttribute("name", result.getUserName());
+			
 			RequestDispatcher rd = req.getRequestDispatcher("ConfirmTickets.jsp");
 			rd.forward(req, resp);
 		}
